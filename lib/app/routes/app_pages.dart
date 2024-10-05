@@ -36,7 +36,7 @@ class AppPages {
 
   GetPage(
       name: _Paths.CARI,
-      page: () => const CariView(),
+      page: () => CariView(),
       bindings: [
         HomeBinding(),
         NavbarBinding(), // Tambahkan binding lain di sini

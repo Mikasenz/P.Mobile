@@ -1,14 +1,15 @@
 import 'package:get/get.dart';
 
 class PlanController extends GetxController {
-  var trips = <Map<String, String>>[].obs; // List untuk menyimpan trip yang dibuat
-  var savedTrips = <Map<String, String>>[].obs; // List untuk menyimpan trip yang disimpan
+  var trips = <Map<String, String>>[].obs;  // List of trips
+  var savedTrips = <Map<String, String>>[].obs;  // List of saved trips
   var selectedTab = 0.obs;
 
   void addTrip(String tripName, String imagePath) {
-    final newTrip = {"tripName": tripName, "imagePath": imagePath};
-    trips.add(newTrip);
-    saveTrip(newTrip); // Langsung menyimpan trip ke dalam savedTrips
+    trips.add({
+      'tripName': tripName,
+      'imagePath': imagePath,
+    });
   }
 
   void saveTrip(Map<String, String> trip) {
@@ -19,10 +20,21 @@ class PlanController extends GetxController {
 
   void removeSavedTrip(Map<String, String> trip) {
     savedTrips.remove(trip);
-    trips.remove(trip); // Menghapus trip dari daftar trip juga
+  }
+
+  void removeTrip(Map<String, String> trip) {
+    trips.remove(trip);
   }
 
   void selectTab(int index) {
     selectedTab.value = index;
+  }
+
+  void updateTripName(Map<String, String> trip, String newTripName) {
+    int index = trips.indexOf(trip);
+    if (index != -1) {
+      trips[index]['tripName'] = newTripName;
+      trips.refresh(); // Trigger UI update
+    }
   }
 }

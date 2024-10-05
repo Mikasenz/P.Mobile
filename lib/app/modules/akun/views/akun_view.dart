@@ -24,7 +24,7 @@ class ProfilePage extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            color: const Color.fromARGB(255, 249, 248, 248),
+            color: const Color.fromARGB(255, 255, 255, 255),
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [

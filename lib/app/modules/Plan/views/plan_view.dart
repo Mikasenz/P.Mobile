@@ -129,7 +129,8 @@ class PlanView extends GetView<PlanController> {
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Text(
                                         trip['tripName']!,
@@ -141,7 +142,38 @@ class PlanView extends GetView<PlanController> {
                                       SizedBox(height: 10),
                                       ElevatedButton(
                                         onPressed: () {
-                                          controller.saveTrip(trip);
+                                          Get.defaultDialog(
+                                            title: 'Edit Trip Name',
+                                            content: Column(
+                                              children: [
+                                                TextField(
+                                                  controller:
+                                                      TextEditingController(),
+                                                  decoration: InputDecoration(
+                                                    labelText:
+                                                        'Enter new trip name',
+                                                    border:
+                                                        OutlineInputBorder(),
+                                                  ),
+                                                  onChanged: (newName) {
+                                                    trip['newTripName'] =
+                                                        newName;
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                            textConfirm: 'Save',
+                                            textCancel: 'Cancel',
+                                            confirmTextColor: Colors.white,
+                                            onConfirm: () {
+                                              String newTripName = trip[
+                                                      'newTripName'] ??
+                                                  trip['tripName']!;
+                                              controller.updateTripName(
+                                                  trip, newTripName);
+                                              Get.back(); // Close dialog
+                                            },
+                                          );
                                         },
                                         child: Text(
                                           'Masuk',
@@ -150,7 +182,20 @@ class PlanView extends GetView<PlanController> {
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.orange,
                                         ),
-                                      )
+                                      ),
+                                      SizedBox(height: 10),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          controller.removeTrip(trip);
+                                        },
+                                        child: Text(
+                                          'Hapus',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -189,7 +234,8 @@ class PlanView extends GetView<PlanController> {
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         trip['tripName']!,
@@ -226,7 +272,8 @@ class PlanView extends GetView<PlanController> {
                   BuatTripForm(controller: controller),
                   backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20)),
                   ),
                   isScrollControlled: true,
                 );
@@ -249,7 +296,6 @@ class PlanView extends GetView<PlanController> {
           ),
         ],
       ),
-      bottomNavigationBar: const CustomBottomNavigationBar(),
     );
   }
 }
@@ -283,7 +329,7 @@ class BuatTripForm extends StatelessWidget {
           SizedBox(height: 20),
           Center(
             child: Text(
-              'Buat Trip',
+              'Buat Trip Baru',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -296,8 +342,8 @@ class BuatTripForm extends StatelessWidget {
           TextField(
             controller: tripNameController,
             decoration: InputDecoration(
+              labelText: 'Nama Trip',
               border: OutlineInputBorder(),
-              hintText: 'Masukkan nama trip',
             ),
           ),
           SizedBox(height: 20),
@@ -314,15 +360,12 @@ class BuatTripForm extends StatelessWidget {
                 }
               },
               child: Text(
-                'Buat Trip',
+                'Simpan',
                 style: TextStyle(color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
+                backgroundColor: Colors.orange,
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
               ),
             ),
           ),
